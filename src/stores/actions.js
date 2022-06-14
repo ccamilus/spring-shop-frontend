@@ -1,4 +1,5 @@
 import { ref, firebaseAuth } from '../config/firebaseConfig';
+import axios from 'axios';
 
 export const updateCart = ({
   commit
@@ -32,10 +33,23 @@ export function loginWithEmail (_, {email, password}) {
   return firebaseAuth().signInWithEmailAndPassword(email, password);
 }
 
-export function listenToProductList({commit}) {
-	return ref.child("products").on('value', (products) => {
-		commit('UPDATE_PRODUCT_LIST', products.val());
+export async function listenToProductList({commit}) {
+	let products;
+	let url = 'http://localhost:8080/api/v1/products';
+	await axios.get(url,  {
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*'
+		}
+	})
+	.then(response => (products = response.data ))
+	.catch(function(error) {
+		console.log(error);
 	});
+	commit('UPDATE_PRODUCT_LIST', products)
+	//return ref.child("products").on('value', (products) => {
+	//	commit('UPDATE_PRODUCT_LIST', products.val());
+	//});
 }
 
 export function getShoppingCart({commit}, {uid, currentCart}) {

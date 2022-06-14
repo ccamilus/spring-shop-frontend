@@ -41,6 +41,8 @@ const mutations = {
 	'UPDATE_PRODUCT_LIST' (state, productList) {
 		state.productList = productList;
 		state.isLoading = false;
+		//console.log(state.productList);
+		//console.log(state.productList[0]);
 	}
 }
 

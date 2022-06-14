@@ -2,18 +2,18 @@
 <div class="mb-3 col-sm-6 col-md-4 item" :class="{'list-group-item': displayList}">
   <div class="thumbnail card">
     <div class="img-event intrinsic">
-      <img :src="item.thumbnail_url" alt="" class="grow thumbnail-image card-img-top intrinsic-item p-3">
+      <img :src="item.image_url" alt="" class="grow thumbnail-image card-img-top intrinsic-item p-3">
     </div>
     <div class="card-body">
-      <router-link :to="'/product/' + item.id" tag="h5" class="card-title"><a>{{ item.title }}</a></router-link>
-      <h6 class="card-subtitle mb-2 remain">{{ item.quantity }}pozostało w magazynie</h6>
+      <router-link :to="'/product/' + item.id" tag="h5" class="card-title"><a>{{ item.name }}</a></router-link>
+      <h6 class="card-subtitle mb-2 remain">{{ item.productInventory.quantity }} pozostało w magazynie</h6>
 
       <p class="card-text truncate">{{ item.description | shortDescription}}</p>
 
       <div class="row">
-        <p class="col-6 lead">${{ item.price }}</p>
+        <p class="col-6 lead">{{ item.price }} zł</p>
         <p class="col-6">
-          <button class="btn btn-success pull-right" :disabled="item.quantity === 0" @click="addItem">
+          <button class="btn btn-success pull-right" :disabled="item.productInventory.quantity === 0" @click="addItem">
             Dodaj do koszyka
           </button>
         </p>

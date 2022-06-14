@@ -46,6 +46,8 @@ export default {
   methods: {
     changeDisplay(isList) {
       this.displayList = isList;
+      console.log("DUPA la");
+      console.log(this.products);
     }
   }
 }

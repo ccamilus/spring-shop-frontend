@@ -31,14 +31,9 @@
         </router-link>
         <li>
           <router-link to="/cart" class="btn btn-success navbar-btn" tag="button">
-            Koszyk <span class="badge badge-light">{{ numItems }} ($ {{ cartValue }})</span>
+            Koszyk <span class="badge badge-light">{{ numItems }} ({{ cartValue }} zł)</span>
           </router-link>
         </li>
-       <!--  <li>
-          <button @click="getUserDataTest()">
-            Test {{ users[0] }}
-          </button>
-        </li> -->
       </ul>
     </div>
   </div>
@@ -47,7 +42,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import {
   mapActions, mapGetters
 } from 'vuex';
@@ -62,7 +56,7 @@ export default {
     ...mapGetters(['isLoggedIn', 'cartValue', 'currentUser', 'cartItemList']),
     numItems() {
       return this.cartItemList.reduce((total, item) => {
-        total += item.quantity;
+        total += item.productInventory.quantity;
         return total
       }, 0);
     },
@@ -75,22 +69,6 @@ export default {
     toggleNavbar() {
       this.isNavOpen = !this.isNavOpen
     },
-    getUserDataTest() {
-                let url = 'http://localhost:8080/api/v1/shop-users';
-                var parameters = {
-                    
-                };
-                axios.get(url, parameters, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': '*'
-                        }
-                    })
-                    .then(response => (this.users = response.data))
-                    .catch(function(error) {
-                        console.log(error);
-                    });
-            },
   }
 }
 </script>

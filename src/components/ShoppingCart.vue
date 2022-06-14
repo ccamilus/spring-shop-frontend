@@ -22,7 +22,7 @@
       <tfoot>
         <tr class="d-table-row d-sm-none">
           <td class="text-center">
-            <strong>Total ${{ cartValue }}</strong>
+            <strong>Łączna kwota: {{ cartValue }} zł</strong>
           </td>
         </tr>
         <tr>
@@ -33,7 +33,7 @@
           </td>
           <td colspan="2" class="d-none d-sm-table-cell"></td>
           <td class="d-none d-sm-table-cell text-center">
-            <strong>Total ${{ cartValue }}</strong>
+            <strong>Łączna kwota: {{ cartValue }} zł</strong>
           </td>
           <td class="px-0">
             <button class="btn btn-success" @click="checkout">

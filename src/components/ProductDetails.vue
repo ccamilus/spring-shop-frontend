@@ -8,20 +8,20 @@
       <div class="row">
         <div class="col-12 col-md-4 offset-md-4">
           <div class="intrinsic">
-            <img class="img-fluid intrinsic-item" :src="item.thumbnail_url" alt="">
+            <img class="img-fluid intrinsic-item" :src="item.image_url" alt="">
           </div>
         </div>
       </div>
 
       <div class="caption-full">
         <h4 class="pull-right">$ {{ item.price }}</h4>
-        <h4> {{ item.title }}</h4>
+        <h4> {{ item.name }}</h4>
         <p> {{ item.description }} </p>
       </div>
       <div class="ratings">
-        <span>{{ item.quantity }} pozostało w magazynie </span>
+        <span>{{ item.productInventory.quantity }} pozostało w magazynie </span>
         <p class="pull-right">
-          <button @click="addItem" :disabled="item.quantity === 0" class="btn btn-success">
+          <button @click="addItem" :disabled="item.productInventory.quantity === 0" class="btn btn-success">
                             Dodaj do koszyka
                         </button>
         </p>
