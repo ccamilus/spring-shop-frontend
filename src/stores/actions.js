@@ -8,7 +8,7 @@ export const updateCart = ({
   commit('UPDATE_CART', {item, quantity, isAdd});
   if (isAdd) {
     let message_obj = {
-      message: `Add ${item.title} to cart successfully`,
+      message: `${item.name} dodano pomyślnie do koszyka`,
       messageClass: "success",
       autoClose: true
     }

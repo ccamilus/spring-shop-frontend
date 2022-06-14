@@ -2,7 +2,7 @@
 <div class="mb-3 col-sm-6 col-md-4 item" :class="{'list-group-item': displayList}">
   <div class="thumbnail card">
     <div class="img-event intrinsic">
-      <img :src="item.image_url" alt="" class="grow thumbnail-image card-img-top intrinsic-item p-3">
+      <img :src="item.imageUrl" alt="" class="grow thumbnail-image card-img-top intrinsic-item p-3">
     </div>
     <div class="card-body">
       <router-link :to="'/product/' + item.id" tag="h5" class="card-title"><a>{{ item.name }}</a></router-link>

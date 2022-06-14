@@ -3,7 +3,7 @@
 		<td data-th="Product">
 			<div class="row">
 				<div class="col-sm-2 d-none d-sm-block">
-					<img :src="cartItem.thumbnail_url" alt="..." class="img-fluid"/>
+					<img :src="cartItem.imageUrl" alt="..." class="img-fluid"/>
 				</div>
 				<div class="col-sm-10">
 					<h4 class="nomargin">{{ cartItem.title }}</h4>
@@ -14,7 +14,7 @@
 		<td data-th="Price">{{ cartItem.price }}</td>
 		<td data-th="Quantity">
 			<input type="number" class="form-control text-center"
-				:value="cartItem.product_inventory_id"
+				:value="cartItem.quantity"
 				@input="updateQuantity"
 				min="0">
 		</td>
@@ -31,7 +31,7 @@
 		props: ['cartItem'],
 		computed: {
 			subtotal() {
-				return this.cartItem.product_inventory_id * this.cartItem.price;
+				return this.cartItem.quantity * this.cartItem.price;
 			}
 		},
 		methods: {
