@@ -1,5 +1,6 @@
 import { ref, firebaseAuth } from '../config/firebaseConfig';
 import axios from 'axios';
+const API_URL = 'http://localhost:8080/api/'
 
 export const updateCart = ({
   commit
@@ -20,8 +21,30 @@ export const removeItemInCart = ({commit}, {item}) => {
 	commit('REMOVE_CART_ITEM', {item});
 }
 
-export const registerByEmail = (_, {email, password}) => {
-	return firebaseAuth().createUserWithEmailAndPassword(email, password);
+export const registerByEmail = (_, { email, password, firstName, lastName, telephone}) => {
+	let register;
+	let url = API_URL + 'v1/registration';
+	var parameters = {
+		email: email,
+		password: password,
+		firstName: firstName,
+		lastName: lastName,
+		telephone: telephone
+	};
+	axios.post(url, parameters, {
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*'
+		}
+	})
+	.then(response => (register = response.data, console.log(register) ))
+	.catch(function(error) {
+		console.log(error);
+	});
+	console.log(register);
+
+	//commit('UPDATE_PRODUCT_LIST', products)
+	//return firebaseAuth().createUserWithEmailAndPassword(email, password);
 }
 
 export const logout = ({commit}) => {
@@ -35,7 +58,7 @@ export function loginWithEmail (_, {email, password}) {
 
 export async function listenToProductList({commit}) {
 	let products;
-	let url = 'http://localhost:8080/api/v1/products';
+	let url = API_URL + 'v1/products';
 	await axios.get(url,  {
 		headers: {
 			'Content-Type': 'application/json',

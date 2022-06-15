@@ -5,11 +5,46 @@
         <h3 class="text-center">Zarejestruj</h3>
         <div class="form-group">
           <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            class="form-control"
+            placeholder="Imię"
+            value
+            v-model="firstName"
+            required
+          />
+          </div>
+         <div class="form-group">
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            class="form-control"
+            placeholder="Nazwisko"
+            value
+            v-model="lastName"
+            required
+          /></div>
+         <div class="form-group">
+          <input
+            type="number"
+            name="telephone"
+            id="telephone"
+            class="form-control"
+            placeholder="Numer telefonu"
+            value
+            v-model="telephone"
+            required
+          />
+          </div>
+        <div class="form-group">
+          <input
             type="email"
             name="email"
             id="email"
             class="form-control"
-            placeholder="Email Address"
+            placeholder="Adres Email"
             value
             v-model="email"
             required
@@ -21,7 +56,7 @@
             name="password"
             id="password"
             class="form-control"
-            placeholder="Password"
+            placeholder="Hasło"
             v-model="password"
             required
           />
@@ -55,6 +90,9 @@ export default {
     return {
       email: '',
       password: '',
+      firstName: '',
+      lastName: '',
+      telephone: null,
       isLoading: false
     }
   },
@@ -64,7 +102,10 @@ export default {
       this.isLoading = true
       let data = {
         email: this.email,
-        password: this.password
+        password: this.password,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        telephone: this.telephone
       }
       this.registerByEmail(data).then(() => {
         this.clearMessage();
