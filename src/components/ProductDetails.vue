@@ -21,7 +21,7 @@
       <div class="ratings">
         <span>{{ item.productInventory.quantity }} pozostało w magazynie </span>
         <p class="pull-right">
-          <button @click="addItem" :disabled="item.productInventory.quantity === 0" class="btn btn-success">
+          <button @click="addItem" :disabled="item.productInventory.quantity === 0 || !isLoggedIn " class="btn btn-success">
                             Dodaj do koszyka
                         </button>
         </p>
@@ -50,7 +50,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isProductLoading', 'products']),
+    ...mapGetters(['isProductLoading', 'products','isLoggedIn', 'currentUser' ]),
     item() {
       let id = this.$route.params.id;
       if (this.products.length >= id) {
@@ -62,18 +62,33 @@ export default {
         }
       }
       return {};
+    },
+    loggedIn() {
+      return this.isLoggedIn;
     }
   },
   methods: {
     ...mapActions(['updateCart']),
     addItem() {
-      const order = {
-        item: Object.assign({}, this.item),
-        quantity: 1,
-        isAdd: true
+      console.log("user add " + this.currentUser.token);
+      console.log("user add id item " + this.item.id);
+      // const order = {
+      //   item: Object.assign({}, this.item),
+      //   quantity: 1,
+      //   isAdd: true,
+      //   token: this.currentUser.token
+      // };
+      const data = {
+        //item: Object.assign({}, this.item),
+       // quantity: 1,
+        //isAdd: true,
+        token: this.currentUser.token,
+        item: this.item
       };
-      // console.log(order);
-      this.updateCart(order);
+      //let token = this.currentUser.token;
+     // let itemId = this.item.id;
+
+      this.updateCart(data);
     }
   }
 }

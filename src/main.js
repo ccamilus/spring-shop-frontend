@@ -37,9 +37,9 @@ new Vue({
 
 function authStatusChange(loggedIn, user) {
 	if (store) {
-		store.commit('AUTH_STATUS_CHANGE');
+		//store.commit('AUTH_STATUS_CHANGE', user);
 		if (user) {
-			store.dispatch('getShoppingCart', {uid: user.uid, currentCart: store.getters.cartItemList});
+			store.dispatch('getShoppingCart', {uid: user.email, currentCart: store.getters.cartItemList});
 		}
 	}
 

@@ -30,8 +30,9 @@
           <a class="nav-link">Zarejestruj</a>
         </router-link>
         <li>
-          <router-link to="/cart" class="btn btn-success navbar-btn" tag="button">
+          <router-link to="/cart" class="btn btn-success navbar-btn" tag="button" :disabled="!isLoggedIn" >
             Koszyk <span class="badge badge-light">{{ numItems }} ({{ cartValue }} zł)</span>
+            
           </router-link>
         </li>
       </ul>
@@ -61,6 +62,8 @@ export default {
       }, 0);
     },
     userEmail() {
+      console.log('testing');
+      console.log(this.isLoggedIn);
       return this.isLoggedIn ? this.currentUser.email : ''
     }
   },
@@ -86,4 +89,7 @@ export default {
 .li-pointer:hover {
   cursor: pointer;
 }
+
+
+
 </style>

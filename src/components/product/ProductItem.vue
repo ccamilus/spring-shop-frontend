@@ -13,10 +13,13 @@
       <div class="row">
         <p class="col-6 lead">{{ item.price }} zł</p>
         <p class="col-6">
-          <button class="btn btn-success pull-right" :disabled="item.productInventory.quantity === 0" @click="addItem">
+          <button class="btn btn-success pull-right" :disabled="item.productInventory.quantity === 0 || !isLoggedIn" @click="addItem">
             Dodaj do koszyka
           </button>
         </p>
+      </div>
+      <div class="card-subtitle mb-2 remain" v-if="!isLoggedIn">
+        <h6 class="card-subtitle mb-2 remain"> Zaloguj się żeby dodać produkt do koszyka</h6>
       </div>
     </div>
   </div>
@@ -25,19 +28,32 @@
 
 <script>
 import {
-  mapActions
+  mapActions, mapGetters
 } from 'vuex';
 export default {
   props: ['item', 'displayList'],
+  computed: {
+    ...mapGetters(['isLoggedIn', 'currentUser']),
+    loggedIn() {
+      return this.isLoggedIn;
+    }
+  },
   methods: {
-    ...mapActions(['updateCart']),
+    ...mapActions(['isProductLoading','updateCart']),
     addItem() {
-      const order = {
-        item: Object.assign({}, this.item),
-        quantity: 1,
-        isAdd: true
+      console.log("user add " + this.currentUser.token);
+      console.log("user add id item " + this.item.id);
+      const data = {
+        //item: Object.assign({}, this.item),
+       // quantity: 1,
+        //isAdd: true,
+        token: this.currentUser.token,
+        item: this.item
       };
-      this.updateCart(order);
+      //let token = this.currentUser.token;
+      //let itemId = this.item.id;
+
+      this.updateCart(data);
     }
   },
   filters: {

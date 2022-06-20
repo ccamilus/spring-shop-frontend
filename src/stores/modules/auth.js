@@ -1,14 +1,34 @@
-import { firebaseAuth } from '../../config/firebaseConfig';
+//import { firebaseAuth } from '../../config/firebaseConfig';
 
 const state = {
-	isLoggedIn: firebaseAuth().currentUser != null,
-	user: firebaseAuth().currentUser,
+	isLoggedIn: false,
+	user: 
+	{email: '',
+	token: ''},
 }
 
 const mutations = {
-	'AUTH_STATUS_CHANGE' (state) {
-		state.isLoggedIn = firebaseAuth().currentUser != null;
-		state.user = firebaseAuth().currentUser;
+	//'AUTH_STATUS_CHANGE' (state, token, loginMessage, isLoggedInTest, emailTest) {
+	'AUTH_STATUS_CHANGE' (state, loginData) {
+		console.log("mutation");
+		console.log(loginData.isLoggedIn);
+		// console.log(emailTest);
+		// console.log(loginMessage);
+		// console.log(state);
+		// state.isLoggedIn = isLoggedInTest;
+		state.isLoggedIn = loginData.isLoggedIn;
+		if(state.isLoggedIn)
+		{
+			state.user.email = loginData.email;
+			state.user.token = loginData.token;
+			return;
+		} 
+		state.user.email = '';
+		state.user.token = '';
+		// console.log(state);
+		//state.user = firebaseAuth().currentUser;
+		//console.log(testData);
+		//console.log(state);
 	}
 }
 
@@ -24,8 +44,9 @@ const getters = {
 		if (state && state.user) {
 			return {
 				email: state.user.email,
-				emailVerified: state.user.emailVerified,
-				uid: state.user.uid
+				//emailVerified: state.user.emailVerified,
+				//uid: state.user.uid
+				token: state.user.token
 			}
 		} else {
 			return {};
