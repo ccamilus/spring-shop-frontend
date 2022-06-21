@@ -105,6 +105,7 @@ commit('AUTH_STATUS_CHANGE', logoutData);
 
 export async function loginWithEmail ({commit}, {email, password}) {
 	let loginMessage;
+	let status = false;
 	let isLoggedIn = false;
 	let url = API_URL + 'login';
 	var parameters = {
@@ -118,15 +119,18 @@ export async function loginWithEmail ({commit}, {email, password}) {
 			'Access-Control-Allow-Origin': '*'
 		}
 	})
-	.then(response => (loginMessage = response.data ))
+	.then(response => (loginMessage = response.data, status = response.status  ))
 	.catch(function(error) {
 		loginMessage = error.response.data.message;
 		console.log("err"),
 		console.log(error.response.data.message),
 		console.log(error);
-		commit('AUTH_STATUS_CHANGE', "", isLoggedIn, email);
+		status = error.response.status;
+		//commit('AUTH_STATUS_CHANGE', "", isLoggedIn, email);
+		return;
 
 	});
+	if(status == 200){
 	isLoggedIn = true;
 	let isLoggedInTest = isLoggedIn;
 	let emailTest = email;
@@ -141,7 +145,7 @@ export async function loginWithEmail ({commit}, {email, password}) {
 
 	}
 	//commit('AUTH_STATUS_CHANGE', loginMessage.authorizationToken, loginMessage, isLoggedInTest, emailTest);
-	commit('AUTH_STATUS_CHANGE', loginData);
+	commit('AUTH_STATUS_CHANGE', loginData); }
   }
 
 export async function listenToProductList({commit}) {
