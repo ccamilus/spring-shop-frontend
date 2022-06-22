@@ -28,7 +28,7 @@
         <tr>
           <td>
             <button class="btn btn-warning" @click="saveShoppingCartLocal">
-              <i class="fa fa-angle-left"></i> Zapisz i kontynuuj zakupy
+              <i class="fa fa-angle-left"></i> Kontynuuj zakupy
             </button>
           </td>
           <td colspan="2" class="d-none d-sm-table-cell"></td>
@@ -64,12 +64,17 @@ export default {
   components: {
     appCartItem: CartItem,
   },
+  created() {
+    let token = this.currentUser.token;
+      this.getShoppingCart({token});
+    },
   methods: {
     ...mapActions([
       'saveShoppingCart',
       'addMessage',
       'saveToTransaction',
       'clearCart',
+      'getShoppingCart'
     ]),
     checkValidCart(itemList, prodList) {
       let isValid = true
@@ -93,35 +98,7 @@ export default {
       }
     },
     saveShoppingCartLocal() {
-      if (this.isLoggedIn) {
-        let { isValid, message } = this.checkValidCart(
-          this.cartItemList,
-          this.products
-        )
-
-        if (isValid) {
-          this.saveShoppingCart({
-            cartItemList: this.cartItemList,
-            uid: this.currentUser.uid,
-          }).then(() => {
-            this.addMessage({
-              messageClass: 'success',
-              message: 'Twój koszyk został pomyślnie zapisany',
-            })
-            this.$router.push('/')
-          })
-        } else {
-          this.addMessage({
-            messageClass: 'danger',
-            message: message,
-          })
-        }
-      } else {
-        this.addMessage({
-          messageClass: 'warning',
-          message: 'Zaloguj się, aby zapisać swój koszyk',
-        })
-      }
+      this.$router.push('/')
     },
     checkout() {
       if (this.isLoggedIn) {

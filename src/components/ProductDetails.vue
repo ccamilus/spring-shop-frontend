@@ -68,7 +68,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['updateCart']),
+    ...mapActions(['addItemToCart']),
     addItem() {
       console.log("user add " + this.currentUser.token);
       console.log("user add id item " + this.item.id);
@@ -88,7 +88,7 @@ export default {
       //let token = this.currentUser.token;
      // let itemId = this.item.id;
 
-      this.updateCart(data);
+      this.addItemToCart(data);
     }
   }
 }

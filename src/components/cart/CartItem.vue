@@ -3,15 +3,15 @@
 		<td data-th="Product">
 			<div class="row">
 				<div class="col-sm-2 d-none d-sm-block">
-					<img :src="cartItem.imageUrl" alt="..." class="img-fluid"/>
+					<img :src="cartItem.product.imageUrl" alt="..." class="img-fluid"/>
 				</div>
 				<div class="col-sm-10">
-					<h4 class="nomargin">{{ cartItem.title }}</h4>
-					<p>{{ cartItem.description }}</p>
+					<h4 class="nomargin">{{ cartItem.product.name }}</h4>
+					<p>{{ cartItem.product.description }}</p>
 				</div>
 			</div>
 		</td>
-		<td data-th="Price">{{ cartItem.price }}</td>
+		<td data-th="Price">{{ cartItem.product.price }}</td>
 		<td data-th="Quantity">
 			<input type="number" class="form-control text-center"
 				:value="cartItem.quantity"
@@ -26,29 +26,39 @@
 </template>
 
 <script>
-	import { mapActions } from 'vuex';
+	import { mapActions, mapGetters } from 'vuex';
 	export default {
 		props: ['cartItem'],
 		computed: {
+			...mapGetters(['currentUser']),
 			subtotal() {
-				return this.cartItem.quantity * this.cartItem.price;
+				return this.cartItem.total;
 			}
 		},
 		methods: {
-			...mapActions(['updateCart', 'removeItemInCart']),
+			...mapActions(['updateCart', 'removeItemInCart', 'getShoppingCart']),
 			removeItem() {
 				let vm = this;
+				let token= this.currentUser.token;
 				this.removeItemInCart({
-					item: vm.cartItem
+					token: token,
+					itemId: vm.cartItem.id
 				});
+				//this.getShoppingCart({token});
 			},
 			updateQuantity(event) {
 				let vm = this;
-				this.updateCart({
+				console.log(vm.cartItem)
+				let token= this.currentUser.token;
+				const data = {
+					token: token,
+					itemId: vm.cartItem.id,
 					item: vm.cartItem,
-					quantity: parseInt(event.target.value),
-					isAdd: false
-				});
+					quantity: parseInt(event.target.value)
+
+				};
+				this.updateCart(data);
+				//this.getShoppingCart({token});
 			}
 		}
 	}

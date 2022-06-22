@@ -31,7 +31,7 @@
         </router-link>
         <li>
           <router-link to="/cart" class="btn btn-success navbar-btn" tag="button" :disabled="!isLoggedIn" >
-            Koszyk <span class="badge badge-light">{{ numItems }} ({{ cartValue }} zł)</span>
+            Koszyk <span class="badge badge-light">({{ cartValue }} zł)</span>
             
           </router-link>
         </li>
@@ -55,12 +55,6 @@ export default {
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'cartValue', 'currentUser', 'cartItemList']),
-    numItems() {
-      return this.cartItemList.reduce((total, item) => {
-        total += item.productInventory.quantity;
-        return total
-      }, 0);
-    },
     userEmail() {
       console.log('testing');
       console.log(this.isLoggedIn);

@@ -69,17 +69,18 @@ export default {
         password: this.password
       }
       this.loginWithEmail(data).then(() => {
-        this.clearMessage();
+        //this.clearMessage();
         this.$router.push({
           name: 'mainpage'
-        });
+        });        
       }).catch((error) => {
-        let message_obj = {
-          message: error.message,
-          messageClass: "danger",
-          autoClose: true
-        }
-        this.addMessage(message_obj);
+        console.log(error)
+        // let message_obj = {
+        //   message: error.message,
+        //   messageClass: "danger",
+        //   autoClose: true
+        // }
+        // this.addMessage(message_obj);
       }).then(() => {
         this.isLoading = false
       })

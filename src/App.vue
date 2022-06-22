@@ -36,9 +36,9 @@
       ...mapActions(['getShoppingCart', 'listenToProductList'])
     },
     created() {
-      let uid = this.$store.getters.currentUser.email;
+      //let uid = this.$store.getters.currentUser.email;
       this.listenToProductList();
-      this.getShoppingCart({uid, currentCart: this.$store.getters.cartItemList});
+      //this.getShoppingCart({uid, currentCart: this.$store.getters.cartItemList});
     }
   }
 </script>
