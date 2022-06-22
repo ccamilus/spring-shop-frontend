@@ -66,13 +66,14 @@ export default {
   },
   created() {
     let token = this.currentUser.token;
-      this.getShoppingCart({token});
+    this.getShoppingCart({token});
     },
   methods: {
     ...mapActions([
-      'saveShoppingCart',
+     // 'saveShoppingCart',
       'addMessage',
-      'saveToTransaction',
+      //'saveToTransaction',
+      'makeOrder',
       'clearCart',
       'getShoppingCart'
     ]),
@@ -109,39 +110,43 @@ export default {
           })
           return
         }
-        let { isValid, message } = this.checkValidCart(
-          this.cartItemList,
-          this.products
-        )
+        let token = this.currentUser.token;
+        this.makeOrder({token});
+        this.$router.push('/');
+        // let { isValid, message } = this.checkValidCart(
+        //   this.cartItemList,
+        //   this.products
+        // )
 
-        if (isValid) {
-          this.saveToTransaction({
-            cartItemList: this.cartItemList,
-            uid: this.currentUser.uid,
-          }).then(() => {
-            this.addMessage({
-              messageClass: 'success',
-              message: 'Twoje zamówienie zostało zrealizowane pomyślnie!',
-            })
-            this.saveShoppingCart({
-              cartItemList: [],
-              uid: this.currentUser.uid,
-            })
-            this.clearCart()
-            this.$router.push('/')
-          })
-        } else {
-          this.addMessage({
-            messageClass: 'danger',
-            message: message,
-          })
-        }
-      } else {
-        this.addMessage({
-          messageClass: 'warning',
-          message: 'Zaloguj się, aby zamówić',
-        })
-      }
+
+      //   if (isValid) {
+      //     this.saveToTransaction({
+      //       cartItemList: this.cartItemList,
+      //       uid: this.currentUser.uid,
+      //     }).then(() => {
+      //       this.addMessage({
+      //         messageClass: 'success',
+      //         message: 'Twoje zamówienie zostało zrealizowane pomyślnie!',
+      //       })
+      //       // this.saveShoppingCart({
+      //       //   cartItemList: [],
+      //       //   uid: this.currentUser.uid,
+      //       // })
+      //       this.clearCart()
+      //       this.$router.push('/')
+      //     })
+      //   } else {
+      //     this.addMessage({
+      //       messageClass: 'danger',
+      //       message: message,
+      //     })
+      //   }
+      // } else {
+      //   this.addMessage({
+      //     messageClass: 'warning',
+      //     message: 'Zaloguj się, aby zamówić',
+      //   })
+       }
     },
   },
 }

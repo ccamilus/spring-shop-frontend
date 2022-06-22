@@ -1,5 +1,4 @@
 //import { firebaseAuth } from '../../config/firebaseConfig';
-
 const state = {
 	isLoggedIn: false,
 	user: 
@@ -25,6 +24,7 @@ const mutations = {
 		} 
 		state.user.email = '';
 		state.user.token = '';
+		window.location.href = '/';
 		// console.log(state);
 		//state.user = firebaseAuth().currentUser;
 		//console.log(testData);

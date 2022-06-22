@@ -24,15 +24,15 @@
           <a class="nav-link">Zaloguj </a>
         </router-link>
         <li v-if="isLoggedIn" class="li-pointer nav-item">
-          <a @click="logout" class="nav-link">Wyloguj {{ userEmail }}</a>
+          <a @click="logout(); redirectToMainPage()" class="nav-link">Wyloguj {{ userEmail }}</a>
         </li>
         <router-link to="/register" tag="li" v-if="!isLoggedIn" class="nav-item" active-class="active">
           <a class="nav-link">Zarejestruj</a>
         </router-link>
         <li>
           <router-link to="/cart" class="btn btn-success navbar-btn" tag="button" :disabled="!isLoggedIn" >
-            Koszyk <span class="badge badge-light">({{ cartValue }} zł)</span>
-            
+            Koszyk <span v-if="cartValue!=null" class="badge badge-light">({{ cartValue }} zł)</span>
+            <span v-else class="badge badge-light">( 0 zł)</span>
           </router-link>
         </li>
       </ul>
@@ -66,6 +66,9 @@ export default {
     toggleNavbar() {
       this.isNavOpen = !this.isNavOpen
     },
+    redirectToMainPage(){
+      this.$router.push('/');
+    }
   }
 }
 </script>
