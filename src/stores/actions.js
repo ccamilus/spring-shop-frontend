@@ -1,22 +1,17 @@
-//import { ref, firebaseAuth } from '../config/firebaseConfig';
-import { ref } from '../config/firebaseConfig';
 import axios from 'axios';
-//import { get } from 'core-js/core/dict';
 const API_URL = 'http://localhost:8080/'
 
-export async function updateCart ({commit}, {token, itemId,item, quantity }) { 
+export async function updateCart ({commit}, {token, itemId, quantity }) { 
 	let updateCartMessage;
-	console.log(item);
 	const parameters = {  };
 	let url = API_URL + 'api/v1/shopping-session/cart-items/change-quantity/' + itemId + '/' + quantity;
-	console.log('token ' + token);
 	await axios.put(url, parameters, {
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Authorization': token
 		}
 	})
-	.then(response => (updateCartMessage = response.data  ))
+	.then(response => (updateCartMessage = response.data.message  ))
 	.catch(function(error) {
 		console.log(error);
 		let message_obj = {
@@ -26,32 +21,14 @@ export async function updateCart ({commit}, {token, itemId,item, quantity }) {
 		}
 		commit('ADD_MESSAGE', message_obj);
 	});
-	console.log(updateCartMessage);
-	
-	//let quantity ='';
-	//commit('UPDATE_CART', {item, quantity});
 	getShoppingCart({commit},{token});
-  //this.getShoppingCart({token});
-//   if (isAdd) {
-//     let message_obj = {
-//       message: `${item.name} dodano pomyślnie do koszyka`,
-//       messageClass: "success",
-//       autoClose: true
-//     }
-//     commit('ADD_MESSAGE', message_obj);
-// 	return;
-//   }
-//   let message_obj = {
-// 	message: `${item.name} już znajduje się w koszyku `,
-// 	messageClass: "danger",
-// 	autoClose: true
-//   }
-//   commit('ADD_MESSAGE', message_obj);
+	console.log(updateCartMessage);	
+
 }
 
 export async function addItemToCart ({commit}, {token, item}) { 
-	let updateCartMessage;
-	let isAdd = false;
+	let addItemToCartMessage;
+	let messageClass;
 	let url = API_URL + 'api/v1/shopping-session/cart-items/save';
 	var parameters = {
 		productId: item.id,
@@ -64,37 +41,24 @@ export async function addItemToCart ({commit}, {token, item}) {
 			'Authorization': token
 		}
 	})
-	.then(response => (updateCartMessage = response.data, isAdd =true ))
+	.then(response => (addItemToCartMessage = response.data.message, messageClass = 'success' ))
 	.catch(function(error) {
 		console.log(error);
+		addItemToCartMessage = error.response.data.message;
+		messageClass = 'danger';
+
 	});
-	console.log(updateCartMessage);
-	//let quantity ='';
-  //commit('UPDATE_CART', {item, quantity, isAdd});
-  if (isAdd) {
-    let message_obj = {
-      message: `${item.name} dodano pomyślnie do koszyka`,
-      messageClass: "success",
-      autoClose: true
-    }
-	commit('ADD_MESSAGE', message_obj);
-	getShoppingCart({commit},{token});
-	return;
-  }
-  let message_obj = {
-	message: `${item.name} już znajduje się w koszyku `,
-	messageClass: "danger",
-	autoClose: true
+	let message_obj = {
+		message: `${item.name} - ` + addItemToCartMessage,
+		messageClass: messageClass,
+		autoClose: true
   }
   commit('ADD_MESSAGE', message_obj);
+  getShoppingCart({ commit }, { token });
 }
 
-
-export async function removeItemInCart ({commit}, {token, itemId}) {
-	
-	let updateCartMessage;
-	//let isAdd = false;
-	//const parameters = {  };
+export async function removeItemInCart ({commit}, {token, itemId}) {	
+	let removeItemInCartMessage;
 	let url = API_URL + 'api/v1/shopping-session/cart-items/delete/' + itemId;
 	console.log('token ' + token);
 	await axios.delete(url, {
@@ -103,13 +67,12 @@ export async function removeItemInCart ({commit}, {token, itemId}) {
 			'Authorization': token
 		}
 	})
-	.then(response => (updateCartMessage = response.data  ))
+	.then(response => (removeItemInCartMessage = response.data  ))
 	.catch(function(error) {
 		console.log(error);
 	});
-	console.log(updateCartMessage);
+	console.log(removeItemInCartMessage);
 	getShoppingCart({commit},{token});
-	//commit('REMOVE_CART_ITEM', {itemId});
 }
 
 export async function registerByEmail  ({commit}, { email, password, firstName, lastName, telephone})  {
@@ -142,23 +105,16 @@ export async function registerByEmail  ({commit}, { email, password, firstName, 
 	commit('ADD_MESSAGE', message_obj);
 	return registerMessage;
 
-	//commit('UPDATE_PRODUCT_LIST', products)
-	//return firebaseAuth().createUserWithEmailAndPassword(email, password);
 }
 
 export const logout = ({commit}) => {
-  commit('SET_CART', []); // clear current cart
+  commit('SET_CART', []); 
   let logoutData = {
 	isLoggedIn: false,
 }
-//commit('AUTH_STATUS_CHANGE', loginMessage.authorizationToken, loginMessage, isLoggedInTest, emailTest);
 commit('AUTH_STATUS_CHANGE', logoutData);
-  //return firebaseAuth().signOut();
 }
 
-// export function loginWithEmail (_, {email, password}) {
-//   return firebaseAuth().signInWithEmailAndPassword(email, password);
-// }
 
 export async function loginWithEmail ({commit}, {email, password}) {
 	let loginMessage;
@@ -186,7 +142,6 @@ export async function loginWithEmail ({commit}, {email, password}) {
 	if(status == 200){
 	isLoggedIn = true;
 	let token = loginMessage.authorization_token;
-		console.log('token ' + token);
 	let loginData = {
 		isLoggedIn: isLoggedIn,
 		email: email,
@@ -195,7 +150,7 @@ export async function loginWithEmail ({commit}, {email, password}) {
 	}
 	commit('AUTH_STATUS_CHANGE', loginData);
 	getShoppingCart({commit},{token});
-    //this.getShoppingCart({token});
+
 	return; }	
 	let message_obj = {
 		message: `Nieprawdiłowy adres email lub hasło. `,
@@ -219,26 +174,12 @@ export async function listenToProductList({commit}) {
 		console.log(error);
 	});
 	commit('UPDATE_PRODUCT_LIST', products)
-	//return ref.child("products").on('value', (products) => {
-	//	commit('UPDATE_PRODUCT_LIST', products.val());
-	//});
+
 }
 
-// export function getShoppingCart({commit}, {uid, currentCart}) {
-// 	if (uid) {
-// 		return ref.child("cart/" + uid).once('value').then((cart) => {
-// 			// console.log(cart.val());
-// 			if (cart.val() && (!currentCart || currentCart.length == 0)) {
-// 				commit('SET_CART', cart.val());
-// 			}
-// 		});
-// 	} else {
-// 		// console.log("User has not logged in");
-// 	}
-// }
+
 export async function getShoppingCart({commit}, {token}) {
-	console.log("TEST 2");
-	let updateCartMessage;
+	let getShoppingCartMessage;
 	let url = API_URL + 'api/v1/shopping-session/cart-items';
 	await axios.get(url, {
 		headers: {
@@ -247,47 +188,17 @@ export async function getShoppingCart({commit}, {token}) {
 			'Authorization': token
 		}
 	})
-	.then(response => (updateCartMessage = response.data.data ))
+	.then(response => (getShoppingCartMessage = response.data.data ))
 	.catch(function(error) {
 		console.log(error);
 	});
-	console.log(updateCartMessage);
-	console.log(updateCartMessage.cart_items);
-	//let quantity ='';
-	commit('SET_CART', updateCartMessage);
-//   commit('UPDATE_CART', {item, quantity, isAdd});
-//   if (isAdd) {
-//     let message_obj = {
-//       message: `${item.name} dodano pomyślnie do koszyka`,
-//       messageClass: "success",
-//       autoClose: true
-//     }
-//     commit('ADD_MESSAGE', message_obj);
-// 	return;
-//   }
-//   let message_obj = {
-// 	message: `${item.name} już znajduje się w koszyku `,
-// 	messageClass: "danger",
-// 	autoClose: true
-//   }
-//   commit('ADD_MESSAGE', message_obj);
+	commit('SET_CART', getShoppingCartMessage);
+
 }
 
-// export function saveShoppingCart(_, {uid, cartItemList}) {
-// 	// console.log("ACTIONS saveShoppingCart");
-// 	// console.log("CART DATA", cartItemList);
-// 	return ref.child("cart/" + uid).set(cartItemList);
-// }
-
-export function saveToTransaction(_, {uid, cartItemList}) {
-	let newTransactionKey = ref.child("transactions").push().key;
-	var newTransaction = {}
-	newTransaction['/transactions/' + uid + '/' + newTransactionKey] = cartItemList;
-	return ref.update(newTransaction);
-}
 
 export async function makeOrder({commit}, {token}) { 
-	let updateCartMessage;
+	let makeOrderMessage;
 	let statutCode;
 	let url = API_URL + 'api/v1/orders/make-order';
 	var parameters = {
@@ -301,14 +212,12 @@ export async function makeOrder({commit}, {token}) {
 			'Authorization': token
 		}
 	})
-	.then(response => (updateCartMessage = response.data.message, statutCode = response.data.status))
+	.then(response => (makeOrderMessage = response.data.message, statutCode = response.data.status))
 	.catch(function(error) {
 		console.log(error);
-		updateCartMessage = error.response.data.message;
+		makeOrderMessage = error.response.data.message;
 	});
-	console.log(updateCartMessage);
-	//let quantity ='';
-  //commit('UPDATE_CART', {item, quantity, isAdd});
+
   if (statutCode >= 200 ) {
     let message_obj = {
       message: 'Zamówienie zostało złożone',
@@ -317,11 +226,10 @@ export async function makeOrder({commit}, {token}) {
     }
 	commit('ADD_MESSAGE', message_obj);
 	getShoppingCart({ commit }, { token });
-	//window.location.href = '/';
 	return;
   }
   let message_obj = {
-	message: updateCartMessage,
+	message: makeOrderMessage,
 	messageClass: "danger",
 	autoClose: true
   }

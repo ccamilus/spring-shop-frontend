@@ -1,7 +1,6 @@
 <template>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark" role="navigation">
   <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <router-link to="/" class="navbar-brand mr-auto">Spring & Vue.js Shop</router-link>
     <button
         class="navbar-toggler"
@@ -14,10 +13,8 @@
         @click="toggleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarTop" :class="{show: isNavOpen}">
       <ul class="navbar-nav mr-auto">
-
       </ul>
       <ul class="nav navbar-nav">
         <router-link to="/login" tag="li" v-if="!isLoggedIn" class="nav-item" active-class="active">
@@ -38,7 +35,6 @@
       </ul>
     </div>
   </div>
-  <!-- /.container -->
 </nav>
 </template>
 
@@ -54,10 +50,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn', 'cartValue', 'currentUser', 'cartItemList']),
+    ...mapGetters(['isLoggedIn', 'cartValue', 'currentUser']),
     userEmail() {
-      console.log('testing');
-      console.log(this.isLoggedIn);
       return this.isLoggedIn ? this.currentUser.email : ''
     }
   },

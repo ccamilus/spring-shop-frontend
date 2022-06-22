@@ -8,13 +8,13 @@
       <div class="row">
         <div class="col-12 col-md-4 offset-md-4">
           <div class="intrinsic">
-            <img class="img-fluid intrinsic-item" :src="item.image_url" alt="">
+            <img class="img-fluid intrinsic-item" :src="item.imageUrl" alt="">
           </div>
         </div>
       </div>
 
       <div class="caption-full">
-        <h4 class="pull-right">$ {{ item.price }}</h4>
+        <h4 class="pull-right">{{ item.price }} zł</h4>
         <h4> {{ item.name }}</h4>
         <p> {{ item.description }} </p>
       </div>
@@ -70,24 +70,10 @@ export default {
   methods: {
     ...mapActions(['addItemToCart']),
     addItem() {
-      console.log("user add " + this.currentUser.token);
-      console.log("user add id item " + this.item.id);
-      // const order = {
-      //   item: Object.assign({}, this.item),
-      //   quantity: 1,
-      //   isAdd: true,
-      //   token: this.currentUser.token
-      // };
       const data = {
-        //item: Object.assign({}, this.item),
-       // quantity: 1,
-        //isAdd: true,
         token: this.currentUser.token,
         item: this.item
       };
-      //let token = this.currentUser.token;
-     // let itemId = this.item.id;
-
       this.addItemToCart(data);
     }
   }

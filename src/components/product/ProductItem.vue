@@ -41,18 +41,10 @@ export default {
   methods: {
     ...mapActions(['isProductLoading','addItemToCart']),
     addItem() {
-      console.log("user add " + this.currentUser.token);
-      console.log("user add id item " + this.item.id);
       const data = {
-        //item: Object.assign({}, this.item),
-       // quantity: 1,
-        //isAdd: true,
         token: this.currentUser.token,
         item: this.item
       };
-      //let token = this.currentUser.token;
-      //let itemId = this.item.id;
-
       this.addItemToCart(data);
     }
   },

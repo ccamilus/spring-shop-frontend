@@ -97,7 +97,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['clearMessage', 'addMessage', 'registerByEmail']),
+    ...mapActions(['addMessage', 'registerByEmail']),
     onSubmit() {
       this.isLoading = true
       let data = {
@@ -108,17 +108,10 @@ export default {
         telephone: this.telephone
       }
       this.registerByEmail(data).then(() => {
-        //this.clearMessage();
         this.$router.push({ name: 'mainpage' });
       })
         .catch((error) => {
           console.log('register error', error);
-          // let message_obj = {
-          //   message: error.message,
-          //   messageClass: "danger",
-          //   autoClose: true
-          // }
-          // this.addMessage(message_obj);
         }).then(() => {
           this.isLoading = false
         })

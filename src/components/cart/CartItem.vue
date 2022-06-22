@@ -38,27 +38,22 @@
 		methods: {
 			...mapActions(['updateCart', 'removeItemInCart', 'getShoppingCart']),
 			removeItem() {
-				let vm = this;
+				let currentItem = this;
 				let token= this.currentUser.token;
 				this.removeItemInCart({
 					token: token,
-					itemId: vm.cartItem.id
+					itemId: currentItem.cartItem.id
 				});
-				//this.getShoppingCart({token});
 			},
 			updateQuantity(event) {
-				let vm = this;
-				console.log(vm.cartItem)
+				let currentItem = this;
 				let token= this.currentUser.token;
 				const data = {
 					token: token,
-					itemId: vm.cartItem.id,
-					item: vm.cartItem,
+					itemId: currentItem.cartItem.id,
 					quantity: parseInt(event.target.value)
-
 				};
 				this.updateCart(data);
-				//this.getShoppingCart({token});
 			}
 		}
 	}

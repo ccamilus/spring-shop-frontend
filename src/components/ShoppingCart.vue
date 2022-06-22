@@ -70,34 +70,10 @@ export default {
     },
   methods: {
     ...mapActions([
-     // 'saveShoppingCart',
       'addMessage',
-      //'saveToTransaction',
       'makeOrder',
-      'clearCart',
       'getShoppingCart'
     ]),
-    checkValidCart(itemList, prodList) {
-      let isValid = true
-      let message = ''
-
-      itemList.map((item) => {
-        for (let prodIdx = 0; prodIdx < prodList.length; prodIdx++) {
-          if (prodList[prodIdx].id == item.id) {
-            if (prodList[prodIdx].quantity < item.quantity) {
-              message = `Only ${prodList[prodIdx].quantity} ${item.title} available in stock`
-              isValid = false
-              return
-            }
-            break
-          }
-        }
-      })
-      return {
-        isValid,
-        message,
-      }
-    },
     saveShoppingCartLocal() {
       this.$router.push('/')
     },
@@ -108,44 +84,11 @@ export default {
             messageClass: 'warning',
             message: 'Twój koszyk jest pusty!',
           })
-          return
+          return;
         }
         let token = this.currentUser.token;
         this.makeOrder({token});
         this.$router.push('/');
-        // let { isValid, message } = this.checkValidCart(
-        //   this.cartItemList,
-        //   this.products
-        // )
-
-
-      //   if (isValid) {
-      //     this.saveToTransaction({
-      //       cartItemList: this.cartItemList,
-      //       uid: this.currentUser.uid,
-      //     }).then(() => {
-      //       this.addMessage({
-      //         messageClass: 'success',
-      //         message: 'Twoje zamówienie zostało zrealizowane pomyślnie!',
-      //       })
-      //       // this.saveShoppingCart({
-      //       //   cartItemList: [],
-      //       //   uid: this.currentUser.uid,
-      //       // })
-      //       this.clearCart()
-      //       this.$router.push('/')
-      //     })
-      //   } else {
-      //     this.addMessage({
-      //       messageClass: 'danger',
-      //       message: message,
-      //     })
-      //   }
-      // } else {
-      //   this.addMessage({
-      //     messageClass: 'warning',
-      //     message: 'Zaloguj się, aby zamówić',
-      //   })
        }
     },
   },

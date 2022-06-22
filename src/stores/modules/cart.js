@@ -27,7 +27,6 @@ const mutations = {
 		}
 	},
 	'REMOVE_CART_ITEM' (state, {itemId}) {
-		console.log(state.cartItemList);
 		const record = state.cartItemList.find(element => element.id == itemId);
 		state.cartItemList.splice(state.cartItemList.indexOf(record), 1);
 	}
@@ -44,10 +43,6 @@ const getters = {
 		return state.cartItemList;
 	},
 	cartValue: (state) => {
-		// let res = 0;
-		// state.cartItemList.map(item => {
-		// 	res += item.price * item.quantity;
-		// });
 		return state.cartValue;
 	}
 }

@@ -1,7 +1,5 @@
 const state = {
 	messageGroup: {
-		// messageClass: 'danger',
-		// message: 'Test'
 		messageClass: '',
 		message: '',
 		timeoutEvent: null,
@@ -10,7 +8,6 @@ const state = {
 
 const mutations = {
 	'ADD_MESSAGE' (state, {message, messageClass}) {
-		console.log("in add!!");
 		state.messageGroup = {
 			messageClass,
 			message
@@ -35,10 +32,9 @@ const mutations = {
 }
 
 const actions = {
-	// Don't need action for now
-	// addMessage({commit}, obj) {
-	// 	commit('ADD_MESSAGE', obj);
-	// },
+	addMessage({commit}, obj) {
+		commit('ADD_MESSAGE', obj);
+	},
 	clearMessage({commit}) {
 		commit('CLEAR_MESSAGE');
 	}

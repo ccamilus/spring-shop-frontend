@@ -33,12 +33,10 @@
       MessageComponent
     },
     methods: {
-      ...mapActions(['getShoppingCart', 'listenToProductList'])
+      ...mapActions(['listenToProductList'])
     },
     created() {
-      //let uid = this.$store.getters.currentUser.email;
       this.listenToProductList();
-      //this.getShoppingCart({uid, currentCart: this.$store.getters.cartItemList});
     }
   }
 </script>

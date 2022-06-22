@@ -1,17 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
 import { routes } from './routes';
 import store from './stores/store';
-import { firebaseListener } from './config/firebaseConfig';
 import './assets/styles/app.scss'
-
 import App from './App.vue';
 
 Vue.use(VueRouter);
-
-
-firebaseListener(authStatusChange);
 
 
 const router = new VueRouter({
@@ -19,13 +13,6 @@ const router = new VueRouter({
 	routes
 });
 
-// router.beforeEach((to, from, next) => {
-//     if (to.onlyGuest && store.getters.isLoggedIn) {
-//         next('/');
-//     } else {
-//         next();
-//     }
-// });
 
 
 new Vue({
@@ -35,12 +22,3 @@ new Vue({
   render: h => h(App)
 })
 
-function authStatusChange(loggedIn, user) {
-	if (store) {
-		//store.commit('AUTH_STATUS_CHANGE', user);
-		if (user) {
-			store.dispatch('getShoppingCart', {uid: user.email, currentCart: store.getters.cartItemList});
-		}
-	}
-
-}
